@@ -30,8 +30,8 @@ class QrCodeToolsPlugin : FlutterPlugin, MethodCallHandler {
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         if (call.method == "decoder") {
             val filePath = call.argument<String>("file")
-            val file = File(filePath)
-            if (!file.exists()) {
+            val file = filePath?.let { File(it) }
+            if (file == null || !file.exists()) {
                 result.error("File not found. filePath: $filePath", null, null)
                 return
             }
